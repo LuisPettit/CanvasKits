@@ -1,0 +1,159 @@
+Name: First-A Recent Prescriptions                                         *
+                                                                           *
+INITIALIZE URL: https://heartbreaking-patch-bakery.glitch.me/initialize    *
+CONFIGURE URL: https://heartbreaking-patch-bakery.glitch.me/configure      *
+SUBMIT URL: https://heartbreaking-patch-bakery.glitch.me/submit            *
+SUBMIT SHEET URL: https://heartbreaking-patch-bakery.glitch.me/sheet       *
+****************************************************************************
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname));
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", function(request, response) {
+  response.sendFile(__dirname + '/views/index.html');
+});
+const listener = app.listen(process.env.PORT, () => {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+app.post("/initialize", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*First-A Perscriptions*",
+            style: "header"
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          {
+            "type": "dropdown",
+            "id": "transaction_list",
+            "label": "Recent Perscriptions",
+            "options": [
+              {
+                "type": "option",
+                "id": "option-1",
+                "text": "Perscription ID: 19836"
+              },
+              {
+                "type": "option",
+                "id": "option-2",
+                "text": "Perscription ID: 17673"
+              },
+              {
+                "type": "option",
+                "id": "option-3",
+                "text": "Perscription ID: 15232"
+              }
+            ]
+          },
+          {
+            type: "button",
+            id: "submit-form",
+            label: "Review Perscription",
+            style: "primary",
+            action: {
+              type: "submit"
+            }
+          }
+        ],
+      },
+    },
+  });
+});
+app.post("/submit", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Perscription Details*",
+            style: "header"
+          },
+          {
+            "type": "data-table",
+            "items": [
+              {
+                "type": "field-value",
+                "field": "Perscription",
+                "value": "19836"
+              },
+              {
+                "type": "field-value",
+                "field": "Status",
+                "value": "Order received"
+              },
+              {
+                "type": "field-value",
+                "field": "Type",
+                "value": "Covid"
+              },
+              {
+                "type": "field-value",
+                "field": "Product",
+                "value": "Corona Antigen Schnelltest"
+              },
+              {
+                "type": "field-value",
+                "field": "Date",
+                "value": "25-Feb-2022"
+              },
+              {
+                "type": "field-value",
+                "field": "Pharamcy",
+                "value": "Schweizer Str. 23, 60594 Frankfurt am Main, Germany"
+              },
+              {
+                "type": "field-value",
+                "field": "Pharmacy ID",
+                "value": "FR7263"
+              }
+            ],
+          },
+          {
+                "type": "image",
+                "url": "https://i.pinimg.com/originals/60/c1/4a/60c14a43fb4745795b3b358868517e79.png",
+                "height": 80,
+                "width": 80,
+                "align": "center"
+          },
+          {
+            "type": "button",
+            "id": "primary-1",
+            "label": "Select Perscription",
+            "style": "primary",
+            "action": {
+              "type": "submit"
+            }
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          {
+            "type": "button",
+            "id": "primary-2",
+            "label": "Go Back",
+            "action": {
+              "type": "submit"
+            }
+          },
+        ],
+      },
+    },
+  });
+});
+/* INSERT CODE HERE */
