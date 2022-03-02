@@ -1,0 +1,142 @@
+Name: Burger King Recent orders                                     *
+                                                                    *
+INITIALIZE URL: https://fog-lacy-coreopsis.glitch.me/initialize     *
+CONFIGURE URL: https://fog-lacy-coreopsis.glitch.me/configure       *
+SUBMIT URL: https://fog-lacy-coreopsis.glitch.me/submit             *
+SUBMIT SHEET URL: https://fog-lacy-coreopsis.glitch.me/sheet        *
+*********************************************************************
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname));
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", function(request, response) {
+  response.sendFile(__dirname + '/views/index.html');
+});
+const listener = app.listen(process.env.PORT, () => {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+app.post("/initialize", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Burger King Orders*",
+            style: "header"
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          {
+            "type": "dropdown",
+            "id": "transaction_list",
+            "label": "Recent orders",
+            "options": [
+              {
+                "type": "option",
+                "id": "option-1",
+                "text": "Order Number: 19836"
+              },
+              {
+                "type": "option",
+                "id": "option-2",
+                "text": "Order Number: 17673"
+              },
+              {
+                "type": "option",
+                "id": "option-3",
+                "text": "Order Number: 15232"
+              }
+            ]
+          },
+          {
+            type: "button",
+            id: "submit-form",
+            label: "Review Order",
+            style: "primary",
+            action: {
+              type: "submit"
+            }
+          }
+        ],
+      },
+    },
+  });
+});
+app.post("/submit", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Order Details*",
+            style: "header"
+          },
+          {
+            "type": "data-table",
+            "items": [
+              {
+                "type": "field-value",
+                "field": "Order #.",
+                "value": "19836"
+              },
+              {
+                "type": "field-value",
+                "field": "Order Type",
+                "value": "Click & Collect"
+              },
+              {
+                "type": "field-value",
+                "field": "Date ordered",
+                "value": "10-Feb-2022"
+              },
+              {
+                "type": "field-value",
+                "field": "Restaurant Location",
+                "value": "2 Rue Pierre Lescot, 75001 Paris, France"
+              },
+              {
+                "type": "field-value",
+                "field": "Restaurant ID",
+                "value": "FR7263"
+              }
+              
+            ]
+          },
+          {
+            "type": "button",
+            "id": "primary-1",
+            "label": "Select Order",
+            "style": "primary",
+            "action": {
+              "type": "submit"
+            }
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          {
+            "type": "button",
+            "id": "primary-2",
+            "label": "Go Back",
+            "action": {
+              "type": "submit"
+            }
+          },
+        ],
+      },
+    },
+  });
+});
