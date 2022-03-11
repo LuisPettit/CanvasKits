@@ -1,0 +1,174 @@
+/* INSERT CODE HERE */
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname));
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", function(request, response) {
+  response.sendFile(__dirname + '/views/index.html');
+});
+const listener = app.listen(process.env.PORT, () => {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+app.post("/initialize", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Omio Bookings*",
+            style: "header"
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          {
+            "type": "dropdown",
+            "id": "transaction_list",
+            "label": "Upcoming Bookings",
+            "options": [
+              {
+                "type": "option",
+                "id": "option-1",
+                "text": "Booking ID: 193919-515054862"
+              },
+              {
+                "type": "option",
+                "id": "option-2",
+                "text": "Booking ID: 12180-383753710"
+              }
+            ]
+          },
+          {
+            type: "button",
+            id: "submit-form",
+            label: "Review Booking",
+            style: "primary",
+            action: {
+              type: "submit"
+            }
+          }
+        ],
+      },
+    },
+  });
+});
+app.post("/submit", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Booking Details*",
+            style: "header"
+          },
+          {
+            "type": "data-table",
+            "items": [
+              {
+                "type": "field-value",
+                "field": "Booking ID",
+                "value": "12180-383753710"
+              },
+              {
+                "type": "field-value",
+                "field": "Travel Partner",
+                "value": "Air France"
+              },
+              {
+                "type": "field-value",
+                "field": "From",
+                "value": "Dublin Airport"
+              },
+              {
+                "type": "field-value",
+                "field": "To",
+                "value": "Geneva International Airport"
+              },
+              {
+                "type": "field-value",
+                "field": "Ticket Type",
+                "value": "Return"
+              },
+              {
+                "type": "field-value",
+                "field": "Arrival",
+                "value": "14th March 2022"
+              },
+              {
+                "type": "field-value",
+                "field": "Departure",
+                "value": "18th March 2022"
+              },
+              {
+                "type": "field-value",
+                "field": "Party size",
+                "value": "1"
+              }
+            ],
+          },
+          
+          {
+            "type": "button",
+            "id": "primary-1",
+            "label": "Cancel Booking",
+            "style": "primary",
+            "action": {
+              "type": "submit"
+              //"type": "url",
+              //"url":  "https://mangrove-glory-lathe.glitch.me/submit2"
+            }
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          
+          {
+            "type": "text",
+            "text": "Seeing as this booking is in less than two weeks, a member of our team would be happy to assist you. ",
+            "style": "error",
+          },
+        ],
+      },
+    },
+  });
+});
+          /*{
+            "type": "text",
+            "id": "primary-2",
+            "text": "",
+            "style": "primary",
+            "action": {
+              "type": "submit"
+            }
+          },
+          {
+            "type": "button",
+            "id": "primary-1",
+            "label": "Modify Booking",
+            "style": "primary",
+            "action": {
+              "type": "submit"
+              //"type": "url",
+              //"url":  "https://mangrove-glory-lathe.glitch.me/submit2"
+            }
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+        ],
+      },
+    },
+  });
+});*/
