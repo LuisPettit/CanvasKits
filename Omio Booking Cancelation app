@@ -1,3 +1,13 @@
+
+Name: Omio Booking Cancelation app                                      *
+                                                                        *
+INITIALIZE URL: https://cedar-branch-fear.glitch.me/initialize          *
+CONFIGURE URL: https://cedar-branch-fear.glitch.me/configure            *
+SUBMIT URL: https://cedar-branch-fear.glitch.me/submit                  *
+SUBMIT SHEET URL: https://cedar-branch-fear.glitch.me/sheet             *
+*************************************************************************
+
+
 /* INSERT CODE HERE */
 const express = require('express');
 const bodyParser = require('body-parser');
