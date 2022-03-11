@@ -1,0 +1,193 @@
+Name: Omio Modify Booking                                                     *
+                                                                              *
+INITIALIZE URL: https://amplified-efficient-beginner.glitch.me/initialize     *
+CONFIGURE URL: https://samplified-efficient-beginner.glitch.me/configure      *
+SUBMIT URL: https://amplified-efficient-beginner.glitch.me/submit             *
+SUBMIT SHEET URL: https://amplified-efficient-beginner.glitch.me/sheet        *
+*******************************************************************************
+
+
+
+/* INSERT CODE HERE */
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname));
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", function(request, response) {
+  response.sendFile(__dirname + '/views/index.html');
+});
+const listener = app.listen(process.env.PORT, () => {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+app.post("/initialize", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Ligentia Shipments*",
+            style: "header"
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          {
+            "type": "dropdown",
+            "id": "transaction_list",
+            "label": "Upcoming Shipments",
+            "options": [
+              {
+                "type": "option",
+                "id": "option-1",
+                "text": "PO: 193919-515054862"
+              },
+              {
+                "type": "option",
+                "id": "option-2",
+                "text": "PO 12180-383753710"
+              }
+            ]
+          },
+          {
+            type: "button",
+            id: "submit-form",
+            label: "Track Shipment",
+            style: "primary",
+            action: {
+              type: "submit"
+            }
+          }
+        ],
+      },
+    },
+  });
+});
+app.post("/submit", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Shipment Details*",
+            style: "header"
+          },
+          {
+            "type": "data-table",
+            "items": [
+              {
+                "type": "field-value",
+                "field": "PO",
+                "value": "12180-383753710"
+              },
+              {
+                "type": "field-value",
+                "field": "METHOD",
+                "value": "SEA"
+              },
+              {
+                "type": "field-value",
+                "field": "POL",
+                "value": "Shanghai (CNSHA)"
+              },
+              {
+                "type": "field-value",
+                "field": "POD",
+                "value": "Barcelona (ESBCN)"
+              },
+              
+              {
+                "type": "field-value",
+                "field": "STATUS",
+                "value": "Vessel Departed from first POL"
+              },
+              
+              {
+                "type": "field-value",
+                "field": "UPDATED",
+                "value": "14th March 2022"
+              },
+              {
+                "type": "field-value",
+                "field": "DPRT DATE",
+                "value": "14th March 2022"
+              },
+              {
+                "type": "field-value",
+                "field": "ARR DATE",
+                "value": "30th April 2022"
+              },
+              {
+                "type": "field-value",
+                "field": "CARGO",
+                "value": "LCL"
+              }
+            ],
+          },
+          
+          {
+            "type": "button",
+            "id": "primary-1",
+            "label": "Change Delivery",
+            "style": "primary",
+            "disabled": true,
+            "action": {
+              "type": "submit"
+              //"type": "url",
+              //"url":  "https://mangrove-glory-lathe.glitch.me/submit2"
+            }
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          
+          {
+            "type": "text",
+            "text": "Route altered due to bad weather in Indian Ocean. Expected delivery date changed from April 28th to April 30th.",
+            "style": "error",
+          },
+        ],
+      },
+    },
+  });
+});
+          /*{
+            "type": "text",
+            "id": "primary-2",
+            "text": "",
+            "style": "primary",
+            "action": {
+              "type": "submit"
+            }
+          },
+          {
+            "type": "button",
+            "id": "primary-1",
+            "label": "Modify Booking",
+            "style": "primary",
+            "action": {
+              "type": "submit"
+              //"type": "url",
+              //"url":  "https://mangrove-glory-lathe.glitch.me/submit2"
+            }
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+        ],
+      },
+    },
+  });
+});*//* INSERT CODE HERE */
+
