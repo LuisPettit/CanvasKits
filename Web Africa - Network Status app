@@ -1,0 +1,147 @@
+Name: Web Africa - Network Status app                               *
+                                                                    *
+INITIALIZE URL: https://canary-scarlet-salsa.glitch.me/initialize   *
+CONFIGURE URL: https://canary-scarlet-salsa.glitch.me/configure     *
+SUBMIT URL: https://canary-scarlet-salsa.glitch.me/submit           *
+SUBMIT SHEET URL: https://canary-scarlet-salsa.glitch.me/sheet      *
+*********************************************************************
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static(__dirname));
+// http://expressjs.com/en/starter/static-files.html
+app.use(express.static('public'));
+// http://expressjs.com/en/starter/basic-routing.html
+app.get("/", function(request, response) {
+  response.sendFile(__dirname + '/views/index.html');
+});
+const listener = app.listen(process.env.PORT, () => {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+app.post("/initialize", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Network Status*",
+            style: "header"
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          {
+            "type": "dropdown",
+            "id": "transaction_list",
+            "label": "Outages in area",
+            "options": [
+              {
+                "type": "option",
+                "id": "option-1",
+                "text": "OUTAGE ID: WA2022-03-1697C1278"
+              },
+              {
+                "type": "option",
+                "id": "option-2",
+                "text": "OUTAGE ID: NWI-8658"
+              },
+              {
+                "type": "option",
+                "id": "option-3",
+                "text": "OUTAGE ID: NWI-8661"
+              }
+            ]
+          },
+          {
+            type: "button",
+            id: "submit-form",
+            label: "Review Outages",
+            style: "primary",
+            action: {
+              type: "submit"
+            }
+          }
+        ],
+      },
+    },
+  });
+});
+app.post("/submit", (request, response) => {
+  const body = request.body;
+  response.send({
+    canvas: {
+      content: {
+        components: [
+          {
+            type: "text",
+            text: "*Outage Details*",
+            style: "header"
+          },
+          {
+            "type": "data-table",
+            "items": [
+              {
+                "type": "field-value",
+                "field": "OUTAGE ID",
+                "value": "WA2022-03-1697C1278"
+              },
+              {
+                "type": "field-value",
+                "field": "NAME",
+                "value": "Gauteng"
+              },
+              {
+                "type": "field-value",
+                "field": "PROVINCE",
+                "value": "Gauteng"
+              },
+              {
+                "type": "field-value",
+                "field": "CITY",
+                "value": "Gauteng"
+              },
+              {
+                "type": "field-value",
+                "field": "START DATE",
+                "value": "2022-03-16 9:02 AM"
+              },
+              {
+                "type": "field-value",
+                "field": "LAST UPDATE",
+                "value": "2022-03-16 9:04:14 AM"
+              }
+              
+            ]
+          },
+          {
+            "type": "button",
+            "id": "primary-1",
+            "label": "Select Outage",
+            "style": "primary",
+            "action": {
+              "type": "submit"
+            }
+          },
+          {
+            type: "spacer",
+            size: "s"
+          },
+          {
+            "type": "button",
+            "id": "primary-2",
+            "label": "Go Back",
+            "action": {
+              "type": "submit"
+            }
+          },
+        ],
+      },
+    },
+  });
+});
